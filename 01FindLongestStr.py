@@ -25,7 +25,10 @@ if __name__ == "__main__":
     s = Solution()
     print(s.lengthOfLongestSubstring(""))
     
-    
+
+"""
+思路：双指针法 加 set集合
+"""
     
     
 # def length_of_longest_substring(s: str) -> int:
