@@ -26,36 +26,34 @@ class Solution:
     
     def partition(self, nums, low, high):
         # 通过单指针找到基准值的位置
-        # pivot = nums[high]
-        # i = low
-        # for j in range(low, high):
-        #     if nums[j]<pivot:
-        #         nums[i], nums[j] = nums[j], nums[i]
-        #         i += 1
-        # nums[i], nums[high] = nums[high], nums[i]
-        # return i
-        # 通过双指针找到基准值的位置
-        pivot = nums[low]  # 选择第一个元素作为基准值
-        i = low + 1
-        j = high
-        while True:
-            while i < j and nums[i] <= pivot:  # 从左向右找第一个大于 pivot 的元素
+        pivot = nums[high]
+        i = low
+        for j in range(low, high):
+            if nums[j]<pivot:
+                if i != j:
+                    nums[i], nums[j] = nums[j], nums[i]
                 i += 1
-            while i < j and nums[j] > pivot:  # 从右向左找第一个小于等于 pivot 的元素
-                j -= 1
-            if i >= j:
-                break
-            nums[i], nums[j] = nums[j], nums[i]  # 交换这两个元素
-        nums[low], nums[j] = nums[j], nums[low]  # 将基准值放到正确的位置
-        return j       
-        
+        nums[i], nums[high] = nums[high], nums[i]
+        return i
+        # 通过双指针找到基准值的位置
+        # pivot = nums[low]  # 选择第一个元素作为基准值
+        # i = low + 1
+        # j = high
+        # while True:
+        #     while i < j and nums[i] <= pivot:  # 从左向右找第一个大于 pivot 的元素
+        #         i += 1
+        #     while i < j and nums[j] > pivot:  # 从右向左找第一个小于等于 pivot 的元素
+        #         j -= 1
+        #     if i >= j:
+        #         break
+        #     nums[i], nums[j] = nums[j], nums[i]  # 交换这两个元素
+        # nums[low], nums[j] = nums[j], nums[low]  # 将基准值放到正确的位置
+        # return j
 
 nums = [7,6,5,4,3,2,1]
 k = 2
 solution = Solution()
 print(f"第{k}大的元素:", solution.findKthLargest(nums, k))
-
-
 
 """
 以上方法会超出时间限制，主要问题为：存在较多相同元素时，会导致递归深度过大
@@ -76,7 +74,7 @@ class Solution:
                 return self.quickSelect(nums, low, lt - 1, target)
             elif target > gt:  # 目标在大于基准值的部分
                 return self.quickSelect(nums, gt + 1, high, target)
-            else:  # 目标在等于基准值的部分
+            else:  # 目标在等于基准值的部分（重复元素部分）
                 return nums[target]
         return nums[low]
     
@@ -101,8 +99,6 @@ class Solution:
         return lt, gt
         
         
-        
-
 def quickSortSelf(arr, low, high):
     if low < high:
         pi = partitionDS(arr, low, high)

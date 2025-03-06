@@ -20,4 +20,4 @@ class Solution:
             node = next_node
             
         return prev
-    
+            
